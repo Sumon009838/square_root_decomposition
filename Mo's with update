@@ -1,0 +1,60 @@
+struct Q{
+    int l,r,time,idx;
+};
+Q q[N];
+ll rootN=2000;
+bool cmp(Q q1,Q q2)
+{
+    if(q1.l/rootN==q2.l/rootN)
+    {
+        if(q1.r/rootN==q2.r/rootN)
+        {
+            return q1.time<q2.time;
+        }
+        else
+        {
+            return q1.r/rootN<q2.r/rootN;
+        }
+    }
+    else
+    {
+        return q1.l/rootN<q2.l/rootN;
+    }
+}
+ll cur=0,cnt1=0,cnt2=-1;
+    for(i=0;i<m;i++)
+    {
+        ll l=q[i].l;
+        ll r=q[i].r,timer=q[i].time;
+        while(cur<timer)
+        {
+            update(op[cur].first,op[cur].second);
+            cur++;
+        }
+        while(cur>timer)
+        {
+            cur--;
+            update(op[cur].first,last[cur]);
+        }
+        while(cnt1>l)
+        {
+            cnt1--;
+            add(ar[cnt1]);
+        }
+        while(cnt2<r)
+        {
+            cnt2++;
+            add(ar[cnt2]);
+        }
+        while(cnt1<l)
+        {
+            erase(ar[cnt1]);
+            cnt1++;
+        }
+        while(cnt2>r)
+        {
+            erase(ar[cnt2]);
+            cnt2--;
+        }
+        ans[q[i].idx]=mex();
+    }
